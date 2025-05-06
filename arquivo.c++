@@ -7,7 +7,7 @@ using namespace std;
 
 int main(){
 
-    ifstream arquivo("C:\\Users\\palom\\OneDrive\\Documentos\\AnalisadorLexico\\teste.txt"); // Abre o arquivo
+    ifstream arquivo("teste.txt");
     if (!arquivo.is_open()) { // Verifica se o arquivo foi aberto corretamente
         cout << "Erro ao abrir o arquivo." << endl;
         return 1;
