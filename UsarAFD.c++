@@ -1,70 +1,176 @@
 #include <iostream>
-#include <fstream> //Lê o arquivo
+#include <fstream>
 #include <string>
-#include <cctype> //Retorna se é um char(letra ou numero)
+#include <vector>
+#include <sstream>
+#include <cctype>
+#include <algorithm>
+#include <unordered_set>
+#include <iomanip>
+
+using namespace std;
+
+// Função para verificar se um caractere é um símbolo válido 
+bool isSymbol(char c) {
+    string symbols = "+-*/:=<>{}();.,[]^";
+    return symbols.find(c) != string::npos;
+}
+
+// Função para determinar se um símbolo é simples ou composto
+string getTipoSimbolo(const string& simbolo) {
+    unordered_set<string> simbolosCompostos = { ":=", "<=", ">=", "<>", "==" };
+    
+    if (simbolosCompostos.count(simbolo)) {
+        return "Simbolo composto";
+    } else {
+        return "Simbolo simples";
+    }
+}
 
 int main() {
-    std::ifstream file("C:\\Users\\palom\\OneDrive\\Documentos\\AnalisadorLexico\\teste.txt"); // Abre o arquivo
-    if (!file.is_open()) { 
-        std::cerr << "Erro ao abrir o arquivo." << std::endl;  // Verifica se o arquivo foi aberto corretamente
+    // Abre o arquivo de entrada
+    ifstream arquivo("C:\\Users\\palom\\OneDrive\\Documentos\\AnalisadorLexico\\teste.txt");
+    if (!arquivo.is_open()) {
+        cout << "Erro ao abrir o arquivo." << endl;
         return 1;
     }
 
-    std::string linha; // Variável para armazenar a linha lida
-    std::string palavras; // Variável para armazenar todas as palavras concatenadas
-    std::string palavra; // Variável para armazenar a palavra lida
-    string simbSimples =  {"+", "-", "*", ":", "{", "}", ";", ",", ".", "=", "<", ">", "[", "]", "^"}; // Símbolos simples
+    // Cria o arquivo de saída
+    ofstream saida("C:\\Users\\palom\\OneDrive\\Documentos\\AnalisadorLexico\\saida.txt");
+    if (!saida.is_open()) {
+        cout << "Erro ao criar o arquivo de saída." << endl;
+        return 1;
+    }
+
+    // Conjunto de palavras reservadas 
+    unordered_set<string> palavrasReservadas = {
+        "Program", "var", "function", "begin", "end", "read", "write",
+        "if", "then", "else", "integer", "boolean", "double", "while",
+        "procedure", "for", "do", "not", "and", "or", "to", "downto"
+    };
+
+    string linha; // Variável para armazenar cada linha do arquivo
+    int numeroLinha = 0; // Contador de linhas
+    
+    // Configuração da tabela
+    const int lexemaWidth = 20; // Largura da coluna "Lexema"
+    const int tipoWidth = 25; // Largura da coluna "Tipo"
+
+    // Cabeçalho do arquivo de saída (com linha de separação)
+    saida << left << setw(lexemaWidth) << "Lexema" << setw(tipoWidth) << "Tipo" << endl;
+    saida << string(lexemaWidth + tipoWidth, '-') << endl;  // Linha de separação
+
+    // Cabeçalho do console (com linha e número da linha)
+    cout << left << setw(lexemaWidth) << "Lexema" << setw(tipoWidth) << "Tipo" << "Linha" << endl;
+    cout << string(lexemaWidth + tipoWidth + 10, '-') << endl;
 
     // Lê o arquivo linha por linha
-    while (std::getline(file, linha)) {
-        palavras += linha + " "; // Concatena as linhas em uma única string
-    }
+    while (getline(arquivo, linha)) {
+        numeroLinha++;
+        string token;
 
-    std::cout << "Conteúdo completo: " << palavras << std::endl;
+        // Remove espaços em branco do início e do fim da linha
+        for (size_t i = 0; i < linha.size(); ++i) {
+            char c = linha[i]; // Caractere atual
 
-    // Lê o arquivo palavra por palavra
-    while (file >> palavra) { 
+            // Verifica se o caractere é um espaço em branco ou um símbolo
+            // Se for espaço em branco, processa o token atual se não estiver vazio
+            // Se for símbolo, processa o token atual e adiciona o símbolo à saída
+            if (isspace(c)) {
+                if (!token.empty()) {
+                    string tipo;
+                    if (palavrasReservadas.count(token)) {
+                        tipo = "Palavra reservada";
+                    } else if (all_of(token.begin(), token.end(), ::isdigit)) {
+                        tipo = "Numero";
+                    } else if (isalpha(token[0])) {
+                        tipo = "Identificador";
+                    }
+                    
+                    // Se o token não for vazio, printa e grava na saída
+                    if (!tipo.empty()) {
+                        cout << left << setw(lexemaWidth) << token << setw(tipoWidth) << tipo << numeroLinha << endl;
+                        saida << left << setw(lexemaWidth) << token << setw(tipoWidth) << tipo << endl;  // Sem "Linha"
+                    }
+                    token.clear();
+                }
+            }
+            else if (c == '{') { // Verifica se o caractere é '{' e ignora o comentário
+                while (i < linha.size() && linha[i] != '}') { 
+                    ++i;
+                }
+            }
+            else if (c == '/') { // Verifica se o caractere é '/' e ignora o comentário de linha
+                if (i + 1 < linha.size() && linha[i + 1] == '/') {
+                    break;
+                }
+            }
+            else if (c == '\'') { // Verifica se o caractere é "'" e ignora a string entre aspas simples
+                while (i < linha.size() && linha[i] != '\'') {
+                    ++i;
+                }
+            }
+            // Verifica se o caractere é um símbolo, se for, processa o token atual e adiciona o símbolo à saída
+            // Se não for símbolo, adiciona o caractere ao token atual
+            else if (isSymbol(c)) {
+                if (!token.empty()) {
+                    string tipo;
+                    if (palavrasReservadas.count(token)) {
+                        tipo = "Palavra reservada";
+                    } else if (all_of(token.begin(), token.end(), ::isdigit)) {
+                        tipo = "Numero";
+                    } else if (isalpha(token[0])) {
+                        tipo = "Identificador";
+                    }
+                    
+                    if (!tipo.empty()) {
+                        cout << left << setw(lexemaWidth) << token << setw(tipoWidth) << tipo << numeroLinha << endl;
+                        saida << left << setw(lexemaWidth) << token << setw(tipoWidth) << tipo << endl;
+                    }
+                    token.clear();
+                }
 
-        // Verifica se a palavra é um número
-        if (std::all_of(palavra.begin(), palavra.end(), ::isdigit)) {
-            std::cout << "Número: " << palavra << std::endl;
+                // Processa o símbolo e adiciona à saída para o console e o arquivo
+                // Verifica se o símbolo é parte de um operador de dois caracteres (como :=, <=, >=, <>)
+                string simbolo(1, c);
+                if ((c == ':' || c == '<' || c == '>') && i + 1 < linha.size()) {
+                    char prox = linha[i + 1];
+                    if (prox == '=' || (c == '<' && prox == '>')) {
+                        simbolo += prox;
+                        ++i;
+                    }
+                }
+                
+                // Determina se o símbolo é simples ou composto
+                string tipoSimbolo = getTipoSimbolo(simbolo);
+                cout << left << setw(lexemaWidth) << simbolo << setw(tipoWidth) << tipoSimbolo << numeroLinha << endl;
+                saida << left << setw(lexemaWidth) << simbolo << setw(tipoWidth) << tipoSimbolo << endl;
+            }
+            else {
+                token += c;
+            }
         }
 
-        //Verifica se a palavra é um simbolo simples
-        for (const auto& simb : simbSimples) { // Itera sobre os símbolos simples para verificar se estão na palavra
-            if (palavra.find(simb) != std::string::npos) {// Verifica se a palavra contém o símbolo simples
-                std::cout << "Símbolo simples: " << simb << std::endl;
-            } 
+        // Processa o último token da linha, se houver
+        if (!token.empty()) {
+            string tipo;
+            if (palavrasReservadas.count(token)) {
+                tipo = "Palavra reservada";
+            } else if (all_of(token.begin(), token.end(), ::isdigit)) {
+                tipo = "Numero";
+            } else if (isalpha(token[0])) {
+                tipo = "Identificador";
+            }
+            
+            // Se o token não for vazio, printa e grava na saída
+            if (!tipo.empty()) {
+                cout << left << setw(lexemaWidth) << token << setw(tipoWidth) << tipo << numeroLinha << endl;
+                saida << left << setw(lexemaWidth) << token << setw(tipoWidth) << tipo << endl;
+            }
         }
-
-        // Verifica se a palavra é uma letra
-        if (std::all_of(palavra.begin(), palavra.end(), ::isalpha)) {
-            std::cout << "Letra: " << palavra << std::endl;
-        }
-
-        // Verifica se a palavra é um identificador
-        if (std::isalpha(palavra[0]) && std::all_of(palavra.begin() + 1, palavra.end(), ::isalnum)) {
-            std::cout << "Identificador: " << palavra << std::endl;
-        }
-        
     }
 
-    // Verifica se a palavra é uma palavra reservada
-    if(palavra == "Program" || palavra == "read" || palavra == "write" || palavra == "integer" || palavra == "boolean" || palavra == "double" || palavra == "function" || palavra == "procedure" || palavra == "begin"
-    || palavra == "end" || palavra == "and" || palavra == "array" || palavra == "case" || palavra == "const" || palavra == "div" || palavra == "do" || palavra == "downto" || palavra == "else" || palavra == "file"
-    || palavra == "for" || palavra == "goto" || palavra == "if" || palavra == "in" || palavra == "label" || palavra == "mode" || palavra == "nil" || palavra == "not" || palavra == "of" || palavra == "or"
-    || palavra == "packed" || palavra == "record" || palavra == "repeat" || palavra == "set" || palavra == "then" || palavra == "to" || palavra == "type" || palavra == "until" || palavra == "with" || palavra == "var" 
-    || palavra == "while") {
-        std::cout << "Palavra reservada: " << palavra << std::endl;
-    }
-
-
-    if( string simbSimples =  {"+", "-", ":", "{", "}", ";", ",", ".", "=", "<", ">", "[", "]", "^"}){
-
-
-    }
-
-    file.close();
-    return 0;        
-
+    arquivo.close();
+    saida.close();
+    return 0;
 }

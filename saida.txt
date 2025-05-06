@@ -1,0 +1,63 @@
+Lexema              Tipo                     
+---------------------------------------------
+Program             Palavra reservada        
+Exemplo             Identificador            
+;                   Simbolo simples          
+var                 Palavra reservada        
+m                   Identificador            
+,                   Simbolo simples          
+y                   Identificador            
+,                   Simbolo simples          
+teste               Identificador            
+:                   Simbolo simples          
+integer             Palavra reservada        
+;                   Simbolo simples          
+function            Palavra reservada        
+fatorial            Identificador            
+(                   Simbolo simples          
+n                   Identificador            
+:                   Simbolo simples          
+integer             Palavra reservada        
+)                   Simbolo simples          
+:                   Simbolo simples          
+integer             Palavra reservada        
+;                   Simbolo simples          
+begin               Palavra reservada        
+if                  Palavra reservada        
+(                   Simbolo simples          
+n                   Identificador            
+<                   Simbolo simples          
+1                   Numero                   
+)                   Simbolo simples          
+then                Palavra reservada        
+fatorial            Identificador            
+:=                  Simbolo composto         
+1                   Numero                   
+else                Palavra reservada        
+fatorial            Identificador            
+:=                  Simbolo composto         
+n                   Identificador            
+*                   Simbolo simples          
+fatorial            Identificador            
+(                   Simbolo simples          
+n                   Identificador            
+-                   Simbolo simples          
+1                   Numero                   
+)                   Simbolo simples          
+end                 Palavra reservada        
+;                   Simbolo simples          
+begin               Palavra reservada        
+read                Palavra reservada        
+(                   Simbolo simples          
+teste               Identificador            
+)                   Simbolo simples          
+;                   Simbolo simples          
+write               Palavra reservada        
+(                   Simbolo simples          
+fatorial            Identificador            
+(                   Simbolo simples          
+teste               Identificador            
+)                   Simbolo simples          
+)                   Simbolo simples          
+end                 Palavra reservada        
+.                   Simbolo simples          
