@@ -1,63 +1,202 @@
 Lexema              Tipo                     
 ---------------------------------------------
 Program             Palavra reservada        
-Exemplo             Identificador            
+CalculadoraComRepeticaoIdentificador            
 ;                   Simbolo simples          
 var                 Palavra reservada        
-m                   Identificador            
 ,                   Simbolo simples          
-y                   Identificador            
+num2                Identificador            
 ,                   Simbolo simples          
-teste               Identificador            
+resultado           Identificador            
 :                   Simbolo simples          
-integer             Palavra reservada        
+Real                Identificador            
 ;                   Simbolo simples          
-function            Palavra reservada        
-fatorial            Identificador            
-(                   Simbolo simples          
-n                   Identificador            
+operacao            Identificador            
 :                   Simbolo simples          
-integer             Palavra reservada        
-)                   Simbolo simples          
+Char                Identificador            
+;                   Simbolo simples          
+continuar           Identificador            
 :                   Simbolo simples          
-integer             Palavra reservada        
+Char                Identificador            
 ;                   Simbolo simples          
 begin               Palavra reservada        
-if                  Palavra reservada        
+repetir             Identificador            
+:                   Simbolo simples          
+write               Palavra reservada        
 (                   Simbolo simples          
-n                   Identificador            
-<                   Simbolo simples          
-1                   Numero                   
+Digite              Identificador            
+o                   Identificador            
+primeiro            Identificador            
+número             Identificador            
+:                   Simbolo simples          
 )                   Simbolo simples          
-then                Palavra reservada        
-fatorial            Identificador            
-:=                  Simbolo composto         
-1                   Numero                   
-else                Palavra reservada        
-fatorial            Identificador            
-:=                  Simbolo composto         
-n                   Identificador            
-*                   Simbolo simples          
-fatorial            Identificador            
-(                   Simbolo simples          
-n                   Identificador            
--                   Simbolo simples          
-1                   Numero                   
-)                   Simbolo simples          
-end                 Palavra reservada        
 ;                   Simbolo simples          
-begin               Palavra reservada        
 read                Palavra reservada        
 (                   Simbolo simples          
-teste               Identificador            
+num1                Identificador            
 )                   Simbolo simples          
 ;                   Simbolo simples          
 write               Palavra reservada        
 (                   Simbolo simples          
-fatorial            Identificador            
+Digite              Identificador            
+o                   Identificador            
+segundo             Identificador            
+número             Identificador            
+:                   Simbolo simples          
+)                   Simbolo simples          
+;                   Simbolo simples          
+read                Palavra reservada        
 (                   Simbolo simples          
-teste               Identificador            
+num2                Identificador            
 )                   Simbolo simples          
+;                   Simbolo simples          
+write               Palavra reservada        
+(                   Simbolo simples          
+Escolha             Identificador            
+a                   Identificador            
+operação          Identificador            
+(                   Simbolo simples          
++                   Simbolo simples          
+,                   Simbolo simples          
+-                   Simbolo simples          
+,                   Simbolo simples          
+*                   Simbolo simples          
+,                   Simbolo simples          
 )                   Simbolo simples          
+:                   Simbolo simples          
+)                   Simbolo simples          
+;                   Simbolo simples          
+read                Palavra reservada        
+(                   Simbolo simples          
+operacao            Identificador            
+)                   Simbolo simples          
+;                   Simbolo simples          
+if                  Palavra reservada        
+operacao            Identificador            
+=                   Simbolo simples          
++                   Simbolo simples          
+then                Palavra reservada        
+resultado           Identificador            
+:=                  Simbolo composto         
+num1                Identificador            
++                   Simbolo simples          
+num2                Identificador            
+else                Palavra reservada        
+if                  Palavra reservada        
+operacao            Identificador            
+=                   Simbolo simples          
+-                   Simbolo simples          
+then                Palavra reservada        
+resultado           Identificador            
+:=                  Simbolo composto         
+num1                Identificador            
+-                   Simbolo simples          
+num2                Identificador            
+else                Palavra reservada        
+if                  Palavra reservada        
+operacao            Identificador            
+=                   Simbolo simples          
+*                   Simbolo simples          
+then                Palavra reservada        
+resultado           Identificador            
+:=                  Simbolo composto         
+num1                Identificador            
+*                   Simbolo simples          
+num2                Identificador            
+else                Palavra reservada        
+if                  Palavra reservada        
+operacao            Identificador            
+=                   Simbolo simples          
+then                Palavra reservada        
+begin               Palavra reservada        
+if                  Palavra reservada        
+num2                Identificador            
+<>                  Simbolo composto         
+0                   Numero                   
+then                Palavra reservada        
+resultado           Identificador            
+:=                  Simbolo composto         
+num1                Identificador            
+num2                Identificador            
+else                Palavra reservada        
+begin               Palavra reservada        
+write               Palavra reservada        
+(                   Simbolo simples          
+Erro                Identificador            
+:                   Simbolo simples          
+divisão            Identificador            
+por                 Identificador            
+zero                Identificador            
+.                   Simbolo simples          
+)                   Simbolo simples          
+;                   Simbolo simples          
+goto                Identificador            
+continuar_operacao  Identificador            
+;                   Simbolo simples          
+end                 Palavra reservada        
+;                   Simbolo simples          
+end                 Palavra reservada        
+else                Palavra reservada        
+begin               Palavra reservada        
+write               Palavra reservada        
+(                   Simbolo simples          
+Operação          Identificador            
+inválida           Identificador            
+.                   Simbolo simples          
+)                   Simbolo simples          
+;                   Simbolo simples          
+goto                Identificador            
+continuar_operacao  Identificador            
+;                   Simbolo simples          
+end                 Palavra reservada        
+;                   Simbolo simples          
+write               Palavra reservada        
+(                   Simbolo simples          
+Resultado           Identificador            
+:                   Simbolo simples          
+,                   Simbolo simples          
+resultado           Identificador            
+:                   Simbolo simples          
+0                   Numero                   
+:                   Simbolo simples          
+2                   Numero                   
+)                   Simbolo simples          
+;                   Simbolo simples          
+continuar_operacao  Identificador            
+:                   Simbolo simples          
+write               Palavra reservada        
+(                   Simbolo simples          
+.                   Simbolo simples          
+Deseja              Identificador            
+realizar            Identificador            
+outra               Identificador            
+operação?         Identificador            
+(                   Simbolo simples          
+sn                  Identificador            
+)                   Simbolo simples          
+:                   Simbolo simples          
+)                   Simbolo simples          
+;                   Simbolo simples          
+read                Palavra reservada        
+(                   Simbolo simples          
+continuar           Identificador            
+)                   Simbolo simples          
+;                   Simbolo simples          
+if                  Palavra reservada        
+(                   Simbolo simples          
+continuar           Identificador            
+=                   Simbolo simples          
+s                   Identificador            
+)                   Simbolo simples          
+or                  Palavra reservada        
+(                   Simbolo simples          
+continuar           Identificador            
+=                   Simbolo simples          
+S                   Identificador            
+)                   Simbolo simples          
+then                Palavra reservada        
+goto                Identificador            
+repetir             Identificador            
+;                   Simbolo simples          
 end                 Palavra reservada        
 .                   Simbolo simples          
