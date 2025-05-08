@@ -9,7 +9,7 @@ var m, y, teste: integer;
     end;
 
 begin
-
+{oi}
     read (teste) ;
     write(fatorial(teste))
     
