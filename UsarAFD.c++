@@ -16,6 +16,11 @@ bool isSymbol(char c) {
     return symbols.find(c) != string::npos;
 }
 
+// Função para verificar se um caractere é válido (não é um símbolo isolado inválido)
+bool isValidChar(char c) {
+    return isSymbol(c) || isalnum(c) || isspace(c) || c == '\'';
+}
+
 // Função para determinar se um símbolo é simples ou composto
 string getTipoSimbolo(const string& simbolo) {
     unordered_set<string> simbolosCompostos = { ":=", "<=", ">=", "<>", "==" };
@@ -72,6 +77,13 @@ int main() {
         // Remove espaços em branco do início e do fim da linha
         for (size_t i = 0; i < linha.size(); ++i) {
             char c = linha[i]; // Caractere atual
+
+            // Verifica se o caractere é inválido (símbolo isolado não reconhecido)
+            if (!isValidChar(c)) {
+                cout << "ERRO LÉXICO: Símbolo inválido '" << c << "' na linha " << numeroLinha << endl;
+                saida << "ERRO LÉXICO: Símbolo inválido '" << c << "' na linha " << numeroLinha << endl;
+                continue;
+            }
 
             // Verifica se o caractere é um espaço em branco ou um símbolo
             // Se for espaço em branco, processa o token atual se não estiver vazio
