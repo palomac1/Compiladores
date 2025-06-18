@@ -82,25 +82,31 @@ bool isTipoValido(const string& palavra) {
 }
 
 int main() {
-    unordered_map<string, string> tabelaSimbolos; // Tabela de símbolos
-    Pilha pilha; // Pilha de nós (max 3 ponteiros ativos por vez)
+    unordered_map<string, string> tabelaSimbolos;
+    Pilha pilha;
 
-    ifstream arquivo("C:\\Users\\palom\\OneDrive\\Documentos\\AnalisadorLexico\\teste.txt");
+    string nomeArquivo;
+    cout << "Digite o nome do arquivo de teste (com caminho completo ou só o nome, se estiver na mesma pasta): ";
+    getline(cin, nomeArquivo);
+
+    ifstream arquivo(nomeArquivo);
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo de entrada." << endl;
         return 1;
     }
 
+    cout << "Lendo arquivo: " << nomeArquivo << endl;
+
     string linha;
     while (getline(arquivo, linha)) {
+        cout << "Linha lida: " << linha << endl;  // Opcional: mostra o conteúdo lido
         size_t posVar = linha.find("var ");
         if (posVar != string::npos) {
-            // Parse da declaração
             size_t nomeInicio = posVar + 4;
             size_t nomeFim = linha.find(":", nomeInicio);
             if (nomeFim != string::npos) {
                 string nomeVar = linha.substr(nomeInicio, nomeFim - nomeInicio);
-                nomeVar.erase(remove(nomeVar.begin(), nomeVar.end(), ' '), nomeVar.end()); // Remove espaços
+                nomeVar.erase(remove(nomeVar.begin(), nomeVar.end(), ' '), nomeVar.end());
 
                 size_t tipoInicio = nomeFim + 1;
                 size_t tipoFim = linha.find(";", tipoInicio);
@@ -114,7 +120,6 @@ int main() {
                 }
             }
         } else {
-            // Considera qualquer linha com ":=" como um uso de variável
             size_t posAtribuicao = linha.find(":=");
             if (posAtribuicao != string::npos) {
                 string nomeVar = linha.substr(0, posAtribuicao);
@@ -124,7 +129,6 @@ int main() {
         }
     }
 
-    // Processa toda a pilha
     while (!pilha.isEmpty()) {
         Node* no = pilha.pop();
         if (no) {

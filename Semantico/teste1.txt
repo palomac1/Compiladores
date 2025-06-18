@@ -1,0 +1,8 @@
+Program Exemplo;
+var
+  x: integer;
+  b: boolean;
+begin
+  b := true;
+  x := 10 + b; {ERRO: Operador '+' não pode ser usado com integer e boolean.}
+end.
