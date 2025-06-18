@@ -34,14 +34,14 @@ string getTipoSimbolo(const string& simbolo) {
 
 int main() {
     // Abre o arquivo de entrada
-    ifstream arquivo("teste.txt");
+    ifstream arquivo("C:\\Users\\palom\\OneDrive\\Documentos\\AnalisadorLexico\\teste.txt");
     if (!arquivo.is_open()) {
         cout << "Erro ao abrir o arquivo." << endl;
         return 1;
     }
 
     // Cria o arquivo de saída
-    ofstream saida("saida.txt");
+    ofstream saida("C:\\Users\\palom\\OneDrive\\Documentos\\AnalisadorLexico\\saida.txt");
     if (!saida.is_open()) {
         cout << "Erro ao criar o arquivo de saída." << endl;
         return 1;
