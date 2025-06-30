@@ -702,7 +702,7 @@ void imprimirAST(ASTNode* node, int nivel = 0) {
 // Função principal do programa.
 int main() {
 
-    ifstream arquivo("C:\\Users\\fortu\\Downloads\\Unespar\\Unespar\\Unespar-3ano\\Compiladores\\1Bim\\saida.txt"); // Abre o arquivo.
+    ifstream arquivo("C:\\Compiladores\\saida.txt"); // Abre o arquivo.
     if (!arquivo.is_open()) { // Se não conseguir abrir.
         cout << "Erro ao abrir o arquivo 'saida.txt'. Certifique-se de que o caminho esta correto.\n";
         return 1; // Retorna erro.
